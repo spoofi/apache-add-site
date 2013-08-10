@@ -5,3 +5,27 @@
 # Description:
 # Console tool that allows you to easily add apache2 sites
 
+# Configuration:
+# $template - path to template file
+template="/etc/apache2/sites-available/vhost.template"
+
+# Run:
+# sudo apacheaddsite site.loc
+
+##########################################################
+
+if [ $# -eq 1 ]
+then
+	site=$1;
+	root=`pwd`;
+	cat $template | sed "s/{server_name}/$site/g" > /etc/apache2/sites-available/$site;
+	sed -i "s%{doc_root}%$root%g" /etc/apache2/sites-available/$site
+	echo "Test Page" > $root/index.html;
+	echo "127.0.0.1 $site" >> /etc/hosts;
+	a2ensite $site > /dev/null;
+	apachectl restart > /dev/null;
+	echo "Add site $site - success";
+else
+	echo "Usage: $0 new-host.com";
+fi
+
