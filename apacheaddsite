@@ -1,0 +1,7 @@
+#!/bin/bash
+# apache-add-site
+# ===============
+
+# Description:
+# Console tool that allows you to easily add apache2 sites
+
